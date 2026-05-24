@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Konfliktsparring">
+<meta name="theme-color" content="#0f0e0c">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#0f0e0c&quot;}">
+<title>Konfliktsparring</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f0e0c; --surface:#1a1916; --surface2:#242320; --border:#2e2d2a;
+  --text:#e8e6e0; --muted:#7a7870; --accent:#c8a96e; --accent-dim:#8a7248;
+  --trin1:#4a8fa8; --trin2:#5b9e6a; --trin3:#8a9e3a; --trin4:#b8942a;
+  --trin5:#c96a30; --trin6:#bf4040; --trin7:#8c2a2a;
+  --kp1:#378ADD; --kp2:#7F77DD; --kp3:#D85A30; --kp4:#1D9E75; --kp5:#BA7517;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.55;min-height:100vh;max-width:480px;margin:0 auto;overscroll-behavior:none}
+
+/* HEADER */
+.header{padding:16px 20px 0;position:sticky;top:0;background:var(--bg);z-index:100}
+.header-top{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+.app-title{font-family:'Fraunces',serif;font-size:21px;font-weight:500;color:var(--text);letter-spacing:-.3px}
+.app-subtitle{font-size:11px;color:var(--muted);font-weight:300;letter-spacing:.05em;text-transform:uppercase}
+.nav{display:flex;gap:2px;padding:12px 0 0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;padding:9px 12px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+
+/* SCREENS */
+.screen{display:none}.screen.active{display:block}
+
+/* INTRO BAND */
+.intro-band{padding:14px 20px 12px;border-bottom:1px solid var(--border)}
+.intro-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.intro-text{font-family:'Fraunces',serif;font-size:15px;font-weight:300;color:var(--text);line-height:1.45;font-style:italic}
+
+/* ACTIVE TRIN INDICATOR */
+.trin-status-bar{padding:10px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.trin-status-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.trin-status-val{font-size:12px;font-weight:500;color:var(--accent)}
+.trin-status-clear{font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px}
+.trin-status-clear:hover{color:var(--text)}
+
+/* TRAP VISUAL */
+.trap-wrap{padding:14px 20px 22px;border-bottom:1px solid var(--border)}
+.trap-visual{display:flex;gap:5px;align-items:flex-end;height:72px;position:relative}
+.trap-bar{flex:1;border-radius:3px 3px 0 0;cursor:pointer;transition:opacity .15s,transform .1s;position:relative;min-width:0}
+.trap-bar:active{transform:scaleY(.95)}
+.trap-bar.current-trin{outline:2px solid var(--accent);outline-offset:2px}
+.trap-bar-label{position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--muted);white-space:nowrap}
+
+/* TRIN CARDS */
+.trin-list{padding:10px 20px 24px;display:flex;flex-direction:column;gap:7px}
+.trin-card{border-radius:12px;overflow:hidden;border:1px solid var(--border);cursor:pointer;background:var(--surface);transition:border-color .2s}
+.trin-card.current-trin{border-color:var(--accent)}
+.trin-header{display:flex;align-items:center;gap:11px;padding:13px 14px}
+.trin-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.trin-label{flex:1}
+.trin-name{font-weight:500;font-size:13.5px;color:var(--text)}
+.trin-tagline{font-size:11.5px;color:var(--muted);margin-top:1px}
+.chevron{width:16px;height:16px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.trin-card.open .chevron,.kp-card.open .chevron{transform:rotate(90deg)}
+.trin-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
+.trin-card.open .trin-body,.kp-card.open .kp-body{display:block}
+.trin-desc{font-size:13px;color:#b5b2aa;line-height:1.6;padding-top:11px;margin-bottom:10px}
+.signal-box{border-left:2px solid var(--accent);padding:8px 12px;background:var(--surface2);border-radius:0 7px 7px 0;font-size:12.5px;color:#c0bbb0;font-style:italic;margin-bottom:12px;line-height:1.45}
+.sub-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.action-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.action-item{font-size:13px;color:var(--text);padding:8px 11px;background:var(--surface2);border-radius:7px;line-height:1.4;border-left:2px solid}
+
+/* KP BRIDGE inside trin */
+.kp-bridge{background:var(--surface2);border-radius:8px;padding:10px 12px;margin-top:2px}
+.kp-bridge-title{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kp-bridge-pills{display:flex;flex-wrap:wrap;gap:6px}
+.kp-pill-btn{font-size:11.5px;padding:5px 10px;border-radius:20px;border:1px solid;background:none;cursor:pointer;color:#fff;font-family:'DM Sans',sans-serif;font-weight:500;transition:opacity .15s}
+.kp-pill-btn:active{opacity:.7}
+
+/* MARK TRIN BUTTON */
+.mark-trin-btn{width:100%;margin-top:12px;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s}
+.mark-trin-btn:hover{background:var(--border)}
+.mark-trin-btn.marked{background:#1e1a10;border-color:var(--accent-dim)}
+
+/* KP SCREEN */
+.kp-list{padding:10px 20px 24px;display:flex;flex-direction:column;gap:7px}
+.kp-card{border-radius:12px;border:1px solid var(--border);background:var(--surface);cursor:pointer;overflow:hidden}
+.kp-header{display:flex;align-items:center;gap:11px;padding:13px 14px}
+.kp-dot{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+.kp-label{flex:1}
+.kp-name{font-weight:500;font-size:13.5px;color:var(--text)}
+.kp-tagline{font-size:11.5px;color:var(--muted);margin-top:1px}
+.kp-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
+.kp-desc{font-size:13px;color:#b5b2aa;line-height:1.6;padding-top:11px;margin-bottom:10px}
+.q-list{display:flex;flex-direction:column;gap:5px}
+.q-item{font-size:13px;color:var(--text);padding:8px 11px;background:var(--surface2);border-radius:7px;line-height:1.4;border-left:2px solid}
+
+/* FORMULERINGER SCREEN */
+.form-content{padding:12px 20px 32px}
+.form-section{margin-bottom:16px}
+.form-section-title{font-family:'Fraunces',serif;font-size:16px;font-weight:500;color:var(--text);margin-bottom:4px}
+.form-section-sub{font-size:12px;color:var(--muted);margin-bottom:10px}
+.form-cards{display:flex;flex-direction:column;gap:6px}
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.form-situation{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.form-quote{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--text);line-height:1.5;margin-bottom:6px}
+.form-note{font-size:11.5px;color:var(--muted);line-height:1.4}
+
+/* ORDLISTE SCREEN */
+.ordliste-content{padding:12px 20px 32px}
+.ord-section{margin-bottom:18px}
+.ord-section-title{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.ord-group{margin-bottom:12px}
+.ord-group-name{font-size:12px;font-weight:500;color:var(--accent);margin-bottom:6px}
+.ord-pills{display:flex;flex-wrap:wrap;gap:5px}
+.ord-pill{font-size:12px;padding:4px 9px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:#c5c0b5;line-height:1.3}
+
+/* MÆGLER SCREEN */
+.maegler-content{padding:12px 20px 32px}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.tool-phase{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-bottom:8px}
+.tool-title{font-family:'Fraunces',serif;font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.tool-text{font-size:12.5px;color:#b5b2aa;line-height:1.55;margin-bottom:10px}
+.checklist{display:flex;flex-direction:column;gap:6px}
+.check-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text);line-height:1.4}
+.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.check-box.checked{background:var(--accent);border-color:var(--accent)}
+.check-box.checked::after{content:'';width:9px;height:6px;border-left:1.5px solid #000;border-bottom:1.5px solid #000;transform:rotate(-45deg) translateY(-1px)}
+.reset-btn{width:100%;margin-top:12px;padding:8px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+
+/* INSTALL BANNER */
+.install-banner{margin:12px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.install-icon{font-size:22px;flex-shrink:0}
+.install-text{flex:1;font-size:12px;color:#b5b2aa;line-height:1.45}
+.install-text b{color:var(--text);font-weight:500}
+.install-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px;flex-shrink:0}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:2px 0}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="app-title">Konfliktsparring</span>
+    <span class="app-subtitle">FDF · mægler</span>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showScreen('trappen')">Konflikttrappen</button>
+    <button class="nav-btn" onclick="showScreen('kernepunkter')">Kernepunkterne</button>
+    <button class="nav-btn" onclick="showScreen('formuleringer')">Formuleringer</button>
+    <button class="nav-btn" onclick="showScreen('ordliste')">Følelser & behov</button>
+    <button class="nav-btn" onclick="showScreen('maegler')">Tjeklister</button>
+  </nav>
+</div>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="installBanner">
+  <div class="install-icon">📲</div>
+  <div class="install-text"><b>Gem til hjemskærm</b> – tryk Del → "Føj til hjemskærm" for at have appen altid ved hånden.</div>
+  <button class="install-close" onclick="dismissBanner()">×</button>
+</div>
+
+<!-- ══ SCREEN: TRAPPEN ══ -->
+<div id="screen-trappen" class="screen active">
+  <div class="intro-band">
+    <div class="intro-label">Trin 1–7</div>
+    <div class="intro-text">Find trinet konflikten er på – og hvad du som mægler kan gøre.</div>
+  </div>
+
+  <div id="trinStatusBar" style="display:none" class="trin-status-bar">
+    <span class="trin-status-label">Markeret trin</span>
+    <span class="trin-status-val" id="trinStatusVal"></span>
+    <button class="trin-status-clear" onclick="clearCurrentTrin()">Ryd</button>
+  </div>
+
+  <div class="trap-wrap">
+    <div class="trap-visual" id="trapBars"></div>
+  </div>
+
+  <div class="trin-list" id="trinList"></div>
+</div>
+
+<!-- ══ SCREEN: KERNEPUNKTERNE ══ -->
+<div id="screen-kernepunkter" class="screen">
+  <div class="intro-band">
+    <div class="intro-label">5 kernepunkter</div>
+    <div class="intro-text">Analyser konflikten lag for lag – fra fakta til handling.</div>
+  </div>
+  <div class="kp-list" id="kpList"></div>
+</div>
+
+<!-- ══ SCREEN: FORMULERINGER ══ -->
+<div id="screen-formuleringer" class="screen">
+  <div class="intro-band">
+    <div class="intro-label">Åbningsformuleringer</div>
+    <div class="intro-text">Vendinger der åbner frem for låser. Tilpas til situationen.</div>
+  </div>
+  <div class="form-content" id="formContent"></div>
+</div>
+
+<!-- ══ SCREEN: ORDLISTE ══ -->
+<div id="screen-ordliste" class="screen">
+  <div class="intro-band">
+    <div class="intro-label">Følelser & behov</div>
+    <div class="intro-text">Brug listerne til at hjælpe parterne sætte ord på det svære.</div>
+  </div>
+  <div class="ordliste-content" id="ordlisteContent"></div>
+</div>
+
+<!-- ══ SCREEN: MÆGLER TJEKLISTER ══ -->
+<div id="screen-maegler" class="screen">
+  <div class="intro-band">
+    <div class="intro-label">Tjeklister</div>
+    <div class="intro-text">Praktiske trin før, under og efter mæglingssamtalen.</div>
+  </div>
+  <div class="maegler-content" id="maeglerContent"></div>
+</div>
+
+<script>
+// ══ DATA ══════════════════════════════════════════
+
+const trin = [
+  { num:1, color:'var(--trin1)', name:'Uoverensstemmelse', tagline:'En positiv, løsbar uenighed',
+    desc:'Der er uenighed om en sag, men parterne taler stadig konstruktivt. Fokus er på sagen, ikke på personen. Konflikter her er sunde – de giver udvikling.',
+    signal:'Trin 1 er det bedste sted at gribe ind. Lav indsats, stor effekt.',
+    kpLinks:[1,2],
+    actions:['Hjælp parterne præcisere, hvad de konkret er uenige om','Sørg for at begge lytter og anerkender den andens synspunkt','Find fælles grund: hvad er I faktisk enige om?','Beslut en fremgangsmåde og sæt en opfølgning']
+  },
+  { num:2, color:'var(--trin2)', name:'Personificering', tagline:'Man går efter manden, ikke bolden',
+    desc:'Uoverensstemmelsen begynder at handle om personen frem for sagen. "Det er din skyld." Den gule alarmklokke skal ringe her – relationen er ved at tage skade.',
+    signal:'Grib ind nu. Det er meget lettere at løse her end højere oppe.',
+    kpLinks:[1,2,3],
+    actions:['Bring fokus tilbage: "Hvad er det konkrete problem?"','Navngiv mønstret: "Jeg hører, at det nu handler om hvem, ikke hvad"','Spørg: "Hvad har du brug for, for at vi kan komme videre?"','Aftal en ny samtale med roligere rammer om nødvendigt']
+  },
+  { num:3, color:'var(--trin3)', name:'Problemet vokser', tagline:'Gamle sager graves op',
+    desc:'Nye og gamle problemer kobles på. Spydige bemærkninger sniger sig ind. Fortiden bruges som ammunition: "Du er altid sådan..."',
+    signal:'Der er mere på spil end det umiddelbart ser ud til. Stil roligt op.',
+    kpLinks:[1,2,3],
+    actions:['Skil sagerne ad: "Lad os holde fokus på det, der skete sidst uge"','Anerkend at der er frustration opbygget over tid','Brug fakta-kernepunktet: hvad er der rent faktisk sket?','Overvej om der er brug for en struktureret mæglingssamtale']
+  },
+  { num:4, color:'var(--trin4)', name:'Samtalen reduceres', tagline:'Man taler om – ikke med – hinanden',
+    desc:'Parterne undgår direkte kontakt. Kommunikation sker via andre eller kropssprog. Alliancer begynder at dannes. Det originale problem er næsten glemt.',
+    signal:'Her er professionel hjælp ofte nødvendig. Tag det alvorligt.',
+    kpLinks:[3,4],
+    actions:['Skab en neutral ramme hvor begge trygt kan tale','Vær tydelig: "Jeg vil hjælpe jer tale direkte med hinanden"','Fokusér på følelser og behov – ikke på hvad der skete','Aftal konkrete kommunikationsspilleregler fremadrettet']
+  },
+  { num:5, color:'var(--trin5)', name:'Fjendebilleder', tagline:'Sort-hvidt verdensbillede',
+    desc:'Parterne har opgivet at forstå hinanden. Alt handler om at vinde. Empati er næsten umulig. Al energi bruges på at bekæmpe – ikke på at løse.',
+    signal:'Kræver erfaren hjælp. Din rolle er stabilisering, ikke løsning.',
+    kpLinks:[3,4,5],
+    actions:['Separér parterne og tal med dem enkeltvis','Validér følelserne uden at bekræfte fjendebilledet','Undgå at stille dig som dommer – det gør det værre','Undersøg om ekstern professionel mægling er nødvendig']
+  },
+  { num:6, color:'var(--trin6)', name:'Åben fjendtlighed', tagline:'Fjendtlige handlinger – man er med eller imod',
+    desc:'Åbne, sårende handlinger og udtalelser. Alliancepartnere hverves aktivt. Neutralitet er næsten umuligt. Målet er tydeligt: at skade den anden part.',
+    signal:'Handl hurtigt. Involvér ledelse og tag konflikten ud af hverdagen.',
+    kpLinks:[4,5],
+    actions:['Sæt en klar grænse: "Sådan taler vi ikke til hinanden her"','Involvér leder eller overordnet – du kan ikke stå alene med dette','Fokusér på at sikre et trygt miljø for alle andre i gruppen','Dokumentér hændelser og handlinger fremadrettet']
+  },
+  { num:7, color:'var(--trin7)', name:'Polarisering', tagline:'Der er ikke plads til os begge',
+    desc:'Konflikten er eskaleret til et punkt, hvor parterne ikke kan være i samme rum. Relationen er dybt skadet. Professionel hjælp er afgørende.',
+    signal:'Din rolle er at hjælpe med at skabe tryghed og bringe de rette folk ind.',
+    kpLinks:[4,5],
+    actions:['Involvér ledelse, HR eller professionel mægler øjeblikkeligt','Prioritér sikkerheden og trivslen for alle involverede','Acceptér at en fælles løsning kan kræve strukturelle ændringer','Vær støttende for begge parter, men sæt klare rammer']
+  }
+];
+
+const kernepunkter = [
+  { num:1, color:'var(--kp1)', name:'Fakta', tagline:'Hvad skete der rent faktisk?',
+    desc:'Fakta er de objektive kendsgerninger – hvad der konkret skete, uden fortolkning eller dom. Beskriv situationen neutralt fra begge parters perspektiv.',
+    questions:['Hvad skete der helt konkret?','Hvem var involveret – hvornår og hvor?','Hvad sagde de til hinanden?','Hvad er der sket set fra den andens perspektiv?']
+  },
+  { num:2, color:'var(--kp2)', name:'Fortolkninger', tagline:'Hvad tænker de om det, der skete?',
+    desc:'Alle fortolker ud fra egne erfaringer. I en ophedet konflikt er fortolkningerne stærkt farvet af følelser. Det er tit fortolkningen – ikke fakta – der driver konflikten.',
+    questions:['Hvad var deres forventninger til situationen?','Hvad var den umiddelbare dom eller reaktion?','Hvor sikre er parterne på deres fortolkninger?','Hvordan tror du, den anden forstår situationen?']
+  },
+  { num:3, color:'var(--kp3)', name:'Følelser', tagline:'Hvordan påvirkes parterne?',
+    desc:'Følelser er ikke støj – de er signaler om behov og værdier. At anerkende og benævne følelserne er en af de mest effektive veje til at åbne en fastlåst konflikt.',
+    questions:['Hvilke følelser er i spil? (vred, såret, bange, ked af det...)','Hvad tror du, den anden part føler?','Hvad udløste disse følelser?','Hvad siger følelserne om, hvad der er vigtigt her?']
+  },
+  { num:4, color:'var(--kp4)', name:'Værdier og behov', tagline:'Hvad driver os egentlig?',
+    desc:'Bag følelserne ligger behov og værdier. Når de krænkes, opstår intense reaktioner. At afdække begge parters behov er vejen til løsninger, der faktisk holder.',
+    questions:['Hvilke værdier oplever parterne er trådt på?','Hvad har de egentlig brug for? (respekt, anerkendelse, tryghed...)','Hvad tror du, den anden part har brug for?','Er der fælles behov som begge kan samles om?']
+  },
+  { num:5, color:'var(--kp5)', name:'Handling', tagline:'Hvad kan vi gøre konkret?',
+    desc:'Fra forståelse til handling. Hvad skal der til for at begge parters vigtigste behov imødekommes? Forslaget skal være positivt, konkret og realistisk.',
+    questions:['Hvad kan parterne konkret gøre fremadrettet?','Hvad er det vigtigste behov at imødekomme nu?','Er forslaget realistisk og inden for rækkevidde?','Hvad er hver part villig til at bidrage med?']
+  }
+];
+
+const kpColorMap = { 1:'var(--kp1)', 2:'var(--kp2)', 3:'var(--kp3)', 4:'var(--kp4)', 5:'var(--kp5)' };
+const kpNameMap = { 1:'Fakta', 2:'Fortolkninger', 3:'Følelser', 4:'Værdier & behov', 5:'Handling' };
+
+const formuleringer = [
+  { gruppe:'Åbne samtalen', sub:'Brug disse til at invitere til dialog uden at låse nogen fast',
+    kort:[
+      { sit:'Neutral åbning', quote:'Jeg kan mærke, at der er noget mellem jer, og jeg vil gerne hjælpe jer tale det igennem.', note:'Anerkend situationen uden at placere skyld.' },
+      { sit:'Invitér til samtale', quote:'Jeg vil gerne give jer begge plads til at blive hørt. Hvem vil starte med at fortælle, hvad de har oplevet?', note:'Sæt strukturen fra start – én taler ad gangen.' },
+      { sit:'Skab tryghed', quote:'Hvad I siger her, bruges til at finde en vej frem – ikke til at dømme nogen.', note:'Reducer defensivitet ved at fjerne truslen.' }
+    ]
+  },
+  { gruppe:'Når samtalen spidser til', sub:'Nedtrappende vendinger når stemningen stiger',
+    kort:[
+      { sit:'Stop optrapningen', quote:'Lad os trække vejret et øjeblik. Jeg hører, at I begge er frustrerede, og det er forståeligt.', note:'Pausér – anerkend – fortsæt.' },
+      { sit:'Tilbage til sagen', quote:'Jeg hører, at der er følelser involveret. Lad os prøve at komme tilbage til, hvad der konkret skete.', note:'Brug fakta-kernepunktet som anker.' },
+      { sit:'Spejl det usagte', quote:'Det lyder som om, det der virkelig gør ondt her er... Har jeg forstået det rigtigt?', note:'Spejling skaber forståelse og sænker temperaturen.' }
+    ]
+  },
+  { gruppe:'Hjælpe parterne til at høre hinanden', sub:'Brug disse midt i samtalen',
+    kort:[
+      { sit:'Perspektivskift', quote:'Lad os et øjeblik prøve at se det fra den andens side. Hvad tror du, hun/han oplever?', note:'Tvinger parterne til at mentalisere.' },
+      { sit:'Anerkend begge', quote:'Jeg kan høre, at I begge har noget vigtigt på hjerte. Begge dele er gyldigt.', note:'Undgå at parterne føler sig rangordnet.' },
+      { sit:'Find det fælles', quote:'Hvad er I faktisk enige om? Er der noget, I begge gerne vil have fungerer bedre?', note:'Fælles mål er broen ud af konflikten.' }
+    ]
+  },
+  { gruppe:'Afslutte og aftale', sub:'Brug disse til at lande samtalen',
+    kort:[
+      { sit:'Opsummer', quote:'Lad mig prøve at samle op på, hvad I er nået til...', note:'Lad parterne korrigere inden I afslutter.' },
+      { sit:'Konkret aftale', quote:'Hvad aftaler vi konkret, at I gør anderledes fremadrettet – og hvornår evaluerer vi?', note:'Gør aftalen målbar og tidssat.' }
+    ]
+  }
+];
+
+const ordliste = {
+  følelser: [
+    { name:'Vrede & frustration', ord:['Vred','Irriteret','Frustreret','Rasende','Bitter','Skuffet','Utilfreds','Fortvivlet'] },
+    { name:'Frygt & uro', ord:['Bange','Nervøs','Urolig','Utryg','Anspændt','Bekymret','Overvældet','Chokeret'] },
+    { name:'Sorg & tyngde', ord:['Ked af det','Trist','Nedslået','Modløs','Såret','Ensom','Hjælpeløs','Udmattet'] },
+    { name:'Forvirring', ord:['Forvirret','Rådvild','Overrumplet','Usikker','Skeptisk','Paf','Fortabt'] }
+  ],
+  behov: [
+    { name:'Relation & anerkendelse', ord:['Respekt','Anerkendelse','Tillid','Omsorg','Samhørighed','Fællesskab','Ligeværd','At blive set'] },
+    { name:'Tryghed & stabilitet', ord:['Tryghed','Sikkerhed','Forudsigelighed','Stabilitet','Klarhed','Orden','Fred'] },
+    { name:'Retfærdighed & ærlighed', ord:['Retfærdighed','Ærlighed','Rimelighed','Loyalitet','Integritet','Ansvar','Gennemsigtighed'] },
+    { name:'Selvbestemmelse & vækst', ord:['Indflydelse','Frihed','Selvstændighed','Udvikling','Meningsfuldhed','Bidrage','Kreativitet'] }
+  ]
+};
+
+const maeglerTjek = [
+  { phase:'Inden samtalen', phaseStyle:'background:#1a2a1a;color:#5ab870',
+    title:'Sæt scenen rigtigt', text:'Gode rammer er halv sejr.',
+    id:'check1',
+    items:['Vælg et neutralt sted – ikke en parts territorium','Sæt god tid af – skynderi ødelægger samtaler','Forbered dig: gennemgå kernepunkterne for begge parter','Aftal på forhånd: ingen afbrydelser, mobiltelefoner ned','Overvej at tale med parterne enkeltvis inden, hvis spændingen er høj']
+  },
+  { phase:'Under samtalen', phaseStyle:'background:#1a1a2e;color:#7a78cc',
+    title:'Din rolle som mægler', text:'Du er ikke dommer – du hjælper parterne til at høre hinanden.',
+    id:'check2',
+    items:['Præsenter din rolle klart: "Jeg er her for at hjælpe jer tale – ikke for at dømme"','Lad begge parter tale ud uden afbrydelse','Opsummer og spejl det, du hører, tilbage','Hold fokus på behov og interesser – ikke positioner','Navngiv mønstre roligt: "Jeg hører at I begge har brug for respekt"','Sørg for at begge føler sig hørt inden I går til løsninger']
+  },
+  { phase:'Afslutte', phaseStyle:'background:#2a1a1a;color:#cc7050',
+    title:'Afslut med aftaler', text:'En god samtale uden en aftale er en halvfærdig løsning.',
+    id:'check3',
+    items:['Opsummer hvad der er aftalt – konkret og tydeligt','Aftal hvem gør hvad og hvornår','Planlæg en opfølgningssamtale (fx om 2–3 uger)','Notér aftalen og send til begge parter','Anerkend begge parters mod og indsats i samtalen']
+  }
+];
+
+// ══ STATE ══════════════════════════════════════════
+
+let currentTrin = parseInt(localStorage.getItem('currentTrin')) || null;
+
+function saveCurrentTrin(num) {
+  currentTrin = num;
+  if (num) localStorage.setItem('currentTrin', num);
+  else localStorage.removeItem('currentTrin');
+  updateTrinUI();
+}
+
+function clearCurrentTrin() { saveCurrentTrin(null); }
+
+function updateTrinUI() {
+  document.querySelectorAll('.trin-card').forEach(c => c.classList.remove('current-trin'));
+  document.querySelectorAll('.trap-bar').forEach(b => b.classList.remove('current-trin'));
+  document.querySelectorAll('.mark-trin-btn').forEach(b => { b.classList.remove('marked'); b.textContent = 'Marker som aktivt trin'; });
+  const bar = document.getElementById('trinStatusBar');
+  if (currentTrin) {
+    const card = document.getElementById('trin-' + currentTrin);
+    const barEl = document.getElementById('bar-' + currentTrin);
+    const btn = document.getElementById('mark-' + currentTrin);
+    if (card) card.classList.add('current-trin');
+    if (barEl) barEl.classList.add('current-trin');
+    if (btn) { btn.classList.add('marked'); btn.textContent = '✓ Markeret som aktivt trin'; }
+    bar.style.display = 'flex';
+    const t = trin.find(t => t.num === currentTrin);
+    document.getElementById('trinStatusVal').textContent = `Trin ${currentTrin}: ${t.name}`;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+// ══ RENDER TRIN ══════════════════════════════════
+
+function renderTrin() {
+  const list = document.getElementById('trinList');
+  const bars = document.getElementById('trapBars');
+  const maxH = 58;
+
+  trin.forEach((t, i) => {
+    const h = 14 + (i / (trin.length - 1)) * maxH;
+    const bar = document.createElement('div');
+    bar.className = 'trap-bar';
+    bar.id = 'bar-' + t.num;
+    bar.style.cssText = `height:${h}px;background:${t.color}`;
+    bar.innerHTML = `<span class="trap-bar-label">${t.num}</span>`;
+    bar.onclick = () => {
+      const card = document.getElementById('trin-' + t.num);
+      if (!card.classList.contains('open')) card.classList.add('open');
+      card.scrollIntoView({ behavior:'smooth', block:'start' });
+    };
+    bars.appendChild(bar);
+
+    const card = document.createElement('div');
+    card.className = 'trin-card';
+    card.id = 'trin-' + t.num;
+
+    const pillsHTML = t.kpLinks.map(n =>
+      `<button class="kp-pill-btn" style="background:${kpColorMap[n]};border-color:${kpColorMap[n]}" onclick="goToKP(${n})">${kpNameMap[n]}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="trin-header" onclick="toggleCard('trin-${t.num}')">
+        <div class="trin-num" style="background:${t.color}">${t.num}</div>
+        <div class="trin-label">
+          <div class="trin-name">${t.name}</div>
+          <div class="trin-tagline">${t.tagline}</div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="trin-body">
+        <div class="trin-desc">${t.desc}</div>
+        <div class="signal-box">${t.signal}</div>
+        <div class="sub-label">Hvad kan du gøre</div>
+        <div class="action-list">
+          ${t.actions.map(a => `<div class="action-item" style="border-color:${t.color}">${a}</div>`).join('')}
+        </div>
+        <div class="kp-bridge">
+          <div class="kp-bridge-title">Relevante kernepunkter</div>
+          <div class="kp-bridge-pills">${pillsHTML}</div>
+        </div>
+        <button class="mark-trin-btn" id="mark-${t.num}" onclick="saveCurrentTrin(${t.num})">Marker som aktivt trin</button>
+      </div>`;
+    list.appendChild(card);
+  });
+
+  updateTrinUI();
+}
+
+function goToKP(num) {
+  showScreen('kernepunkter');
+  setTimeout(() => {
+    const card = document.getElementById('kp-' + num);
+    if (card) { card.classList.add('open'); card.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  }, 80);
+}
+
+// ══ RENDER KP ═════════════════════════════════════
+
+function renderKP() {
+  const list = document.getElementById('kpList');
+  kernepunkter.forEach(k => {
+    const card = document.createElement('div');
+    card.className = 'kp-card';
+    card.id = 'kp-' + k.num;
+    card.innerHTML = `
+      <div class="kp-header" onclick="toggleCard('kp-${k.num}')">
+        <div class="kp-dot" style="background:${k.color}">${k.num}</div>
+        <div class="kp-label">
+          <div class="kp-name">${k.name}</div>
+          <div class="kp-tagline">${k.tagline}</div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="kp-body">
+        <div class="kp-desc">${k.desc}</div>
+        <div class="sub-label">Undersøgende spørgsmål</div>
+        <div class="q-list">
+          ${k.questions.map(q => `<div class="q-item" style="border-color:${k.color}">${q}</div>`).join('')}
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+// ══ RENDER FORMULERINGER ══════════════════════════
+
+function renderFormuleringer() {
+  const c = document.getElementById('formContent');
+  formuleringer.forEach(gruppe => {
+    const sec = document.createElement('div');
+    sec.className = 'form-section';
+    sec.innerHTML = `<div class="form-section-title">${gruppe.gruppe}</div><div class="form-section-sub">${gruppe.sub}</div><div class="form-cards">${
+      gruppe.kort.map(k => `
+        <div class="form-card">
+          <div class="form-situation">${k.sit}</div>
+          <div class="form-quote">"${k.quote}"</div>
+          <div class="form-note">${k.note}</div>
+        </div>`).join('')
+    }</div>`;
+    c.appendChild(sec);
+  });
+}
+
+// ══ RENDER ORDLISTE ══════════════════════════════
+
+function renderOrdliste() {
+  const c = document.getElementById('ordlisteContent');
+  ['følelser','behov'].forEach(type => {
+    const sec = document.createElement('div');
+    sec.className = 'ord-section';
+    sec.innerHTML = `<div class="ord-section-title">${type === 'følelser' ? 'Følelsesord' : 'Behov og værdier'}</div>` +
+      ordliste[type].map(g => `
+        <div class="ord-group">
+          <div class="ord-group-name">${g.name}</div>
+          <div class="ord-pills">${g.ord.map(o => `<span class="ord-pill">${o}</span>`).join('')}</div>
+        </div>`).join('');
+    c.appendChild(sec);
+  });
+}
+
+// ══ RENDER MÆGLER ════════════════════════════════
+
+function renderMaegler() {
+  const c = document.getElementById('maeglerContent');
+  maeglerTjek.forEach(block => {
+    const saved = JSON.parse(localStorage.getItem('check-' + block.id) || '{}');
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    card.innerHTML = `
+      <div class="tool-phase" style="${block.phaseStyle}">${block.phase}</div>
+      <div class="tool-title">${block.title}</div>
+      <div class="tool-text">${block.text}</div>
+      <div class="checklist" id="${block.id}"></div>
+      <button class="reset-btn" onclick="resetChecklist('${block.id}')">Nulstil tjekliste</button>`;
+    c.appendChild(card);
+
+    const list = document.getElementById(block.id);
+    block.items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'check-item';
+      const box = document.createElement('div');
+      box.className = 'check-box' + (saved[i] ? ' checked' : '');
+      box.onclick = () => {
+        box.classList.toggle('checked');
+        const s = JSON.parse(localStorage.getItem('check-' + block.id) || '{}');
+        s[i] = box.classList.contains('checked');
+        localStorage.setItem('check-' + block.id, JSON.stringify(s));
+      };
+      const txt = document.createElement('span');
+      txt.textContent = item;
+      row.appendChild(box); row.appendChild(txt);
+      list.appendChild(row);
+    });
+  });
+}
+
+function resetChecklist(id) {
+  localStorage.removeItem('check-' + id);
+  document.querySelectorAll('#' + id + ' .check-box').forEach(b => b.classList.remove('checked'));
+}
+
+// ══ NAV ══════════════════════════════════════════
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4 };
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleCard(id) { document.getElementById(id).classList.toggle('open'); }
+
+function dismissBanner() {
+  document.getElementById('installBanner').style.display = 'none';
+  localStorage.setItem('bannerDismissed','1');
+}
+
+// ══ INIT ══════════════════════════════════════════
+
+if (localStorage.getItem('bannerDismissed')) document.getElementById('installBanner').style.display = 'none';
+renderTrin();
+renderKP();
+renderFormuleringer();
+renderOrdliste();
+renderMaegler();
+</script>
+</body>
+</html>

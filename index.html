@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Konfliktsparring">
 <meta name="theme-color" content="#0f0e0c">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#0f0e0c&quot;}">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#c8a96e&quot;,&quot;icons&quot;:[]}">
 <title>Konfliktsparring</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .app-subtitle{font-size:11px;color:var(--muted);font-weight:300;letter-spacing:.05em;text-transform:uppercase}
 .nav{display:flex;gap:2px;padding:12px 0 0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex-shrink:0;padding:9px 12px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-btn{flex-shrink:0;padding:9px 12px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s}
 .nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
 
 /* SCREENS */
@@ -68,7 +68,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .trin-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
 .trin-card.open .trin-body,.kp-card.open .kp-body{display:block}
 .trin-desc{font-size:13px;color:#b5b2aa;line-height:1.6;padding-top:11px;margin-bottom:10px}
-.signal-box{border-left:2px solid var(--accent);padding:8px 12px;background:var(--surface2);border-radius:0 7px 7px 0;font-size:12.5px;color:#c0bbb0;font-style:italic;margin-bottom:12px;line-height:1.45}
+.signal-box{border-left:2px solid var(--accent);padding:8px 12px;background:var(--surface2);border-radius:0 7px 7px 0;font-size:12.5px;color:#c0bbb0;font-style:italic;margin-bottom:12px;line-height:1.5}
 .sub-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
 .action-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .action-item{font-size:13px;color:var(--text);padding:8px 11px;background:var(--surface2);border-radius:7px;line-height:1.4;border-left:2px solid}
@@ -81,7 +81,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .kp-pill-btn:active{opacity:.7}
 
 /* MARK TRIN BUTTON */
-.mark-trin-btn{width:100%;margin-top:12px;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s}
+.mark-trin-btn{width:100%;margin-top:12px;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .2s}
 .mark-trin-btn:hover{background:var(--border)}
 .mark-trin-btn.marked{background:#1e1a10;border-color:var(--accent-dim)}
 
@@ -126,7 +126,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .tool-text{font-size:12.5px;color:#b5b2aa;line-height:1.55;margin-bottom:10px}
 .checklist{display:flex;flex-direction:column;gap:6px}
 .check-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text);line-height:1.4}
-.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .check-box.checked{background:var(--accent);border-color:var(--accent)}
 .check-box.checked::after{content:'';width:9px;height:6px;border-left:1.5px solid #000;border-bottom:1.5px solid #000;transform:rotate(-45deg) translateY(-1px)}
 .reset-btn{width:100%;margin-top:12px;padding:8px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
@@ -229,43 +229,43 @@ const trin = [
     desc:'Der er uenighed om en sag, men parterne taler stadig konstruktivt. Fokus er på sagen, ikke på personen. Konflikter her er sunde – de giver udvikling.',
     signal:'Trin 1 er det bedste sted at gribe ind. Lav indsats, stor effekt.',
     kpLinks:[1,2],
-    actions:['Hjælp parterne præcisere, hvad de konkret er uenige om','Sørg for at begge lytter og anerkender den andens synspunkt','Find fælles grund: hvad er I faktisk enige om?','Beslut en fremgangsmåde og sæt en opfølgning']
+    actions:['Hjælp parterne præcisere, hvad de konkret er uenige om','Sørg for at begge lytter og anerkender den andens synspunkt','Find fælles grund: hvad er I faktisk enige om?','Beslut en fremadrettet handling sammen']
   },
   { num:2, color:'var(--trin2)', name:'Personificering', tagline:'Man går efter manden, ikke bolden',
     desc:'Uoverensstemmelsen begynder at handle om personen frem for sagen. "Det er din skyld." Den gule alarmklokke skal ringe her – relationen er ved at tage skade.',
     signal:'Grib ind nu. Det er meget lettere at løse her end højere oppe.',
     kpLinks:[1,2,3],
-    actions:['Bring fokus tilbage: "Hvad er det konkrete problem?"','Navngiv mønstret: "Jeg hører, at det nu handler om hvem, ikke hvad"','Spørg: "Hvad har du brug for, for at vi kan komme videre?"','Aftal en ny samtale med roligere rammer om nødvendigt']
+    actions:['Bring fokus tilbage: "Hvad er det konkrete problem?"','Navngiv mønstret: "Jeg hører, at det nu handler om hvem, ikke hvad"','Spørg: "Hvad har du brug for, for at vi kan komme videre?"','Invitér til næste trin uden at tage parti']
   },
   { num:3, color:'var(--trin3)', name:'Problemet vokser', tagline:'Gamle sager graves op',
     desc:'Nye og gamle problemer kobles på. Spydige bemærkninger sniger sig ind. Fortiden bruges som ammunition: "Du er altid sådan..."',
     signal:'Der er mere på spil end det umiddelbart ser ud til. Stil roligt op.',
     kpLinks:[1,2,3],
-    actions:['Skil sagerne ad: "Lad os holde fokus på det, der skete sidst uge"','Anerkend at der er frustration opbygget over tid','Brug fakta-kernepunktet: hvad er der rent faktisk sket?','Overvej om der er brug for en struktureret mæglingssamtale']
+    actions:['Skil sagerne ad: "Lad os holde fokus på det, der skete sidst uge"','Anerkend at der er frustration opbygget over tid','Brug fakta-kernepunktet: hvad er der rent faktisk sket?','Overvej at splitte mødet op hvis det bliver for intenst']
   },
   { num:4, color:'var(--trin4)', name:'Samtalen reduceres', tagline:'Man taler om – ikke med – hinanden',
     desc:'Parterne undgår direkte kontakt. Kommunikation sker via andre eller kropssprog. Alliancer begynder at dannes. Det originale problem er næsten glemt.',
     signal:'Her er professionel hjælp ofte nødvendig. Tag det alvorligt.',
     kpLinks:[3,4],
-    actions:['Skab en neutral ramme hvor begge trygt kan tale','Vær tydelig: "Jeg vil hjælpe jer tale direkte med hinanden"','Fokusér på følelser og behov – ikke på hvad der skete','Aftal konkrete kommunikationsspilleregler fremadrettet']
+    actions:['Skab en neutral ramme hvor begge trygt kan tale','Vær tydelig: "Jeg vil hjælpe jer tale direkte med hinanden"','Fokusér på følelser og behov – ikke på hvad der skete','Aftal konkrete timer til opfølgning']
   },
   { num:5, color:'var(--trin5)', name:'Fjendebilleder', tagline:'Sort-hvidt verdensbillede',
     desc:'Parterne har opgivet at forstå hinanden. Alt handler om at vinde. Empati er næsten umulig. Al energi bruges på at bekæmpe – ikke på at løse.',
     signal:'Kræver erfaren hjælp. Din rolle er stabilisering, ikke løsning.',
     kpLinks:[3,4,5],
-    actions:['Separér parterne og tal med dem enkeltvis','Validér følelserne uden at bekræfte fjendebilledet','Undgå at stille dig som dommer – det gør det værre','Undersøg om ekstern professionel mægling er nødvendig']
+    actions:['Separér parterne og tal med dem enkeltvis','Validér følelserne uden at bekræfte fjendebilledet','Undgå at stille dig som dommer – det gør det værre','Undersøg om ekstern professionel skal involveres']
   },
   { num:6, color:'var(--trin6)', name:'Åben fjendtlighed', tagline:'Fjendtlige handlinger – man er med eller imod',
     desc:'Åbne, sårende handlinger og udtalelser. Alliancepartnere hverves aktivt. Neutralitet er næsten umuligt. Målet er tydeligt: at skade den anden part.',
     signal:'Handl hurtigt. Involvér ledelse og tag konflikten ud af hverdagen.',
     kpLinks:[4,5],
-    actions:['Sæt en klar grænse: "Sådan taler vi ikke til hinanden her"','Involvér leder eller overordnet – du kan ikke stå alene med dette','Fokusér på at sikre et trygt miljø for alle andre i gruppen','Dokumentér hændelser og handlinger fremadrettet']
+    actions:['Sæt en klar grænse: "Sådan taler vi ikke til hinanden her"','Involvér leder eller overordnet – du kan ikke stå alene med dette','Fokusér på at sikre et trygt miljø for alle involverede','Planlæg næste skridt med ledelsen']
   },
   { num:7, color:'var(--trin7)', name:'Polarisering', tagline:'Der er ikke plads til os begge',
     desc:'Konflikten er eskaleret til et punkt, hvor parterne ikke kan være i samme rum. Relationen er dybt skadet. Professionel hjælp er afgørende.',
     signal:'Din rolle er at hjælpe med at skabe tryghed og bringe de rette folk ind.',
     kpLinks:[4,5],
-    actions:['Involvér ledelse, HR eller professionel mægler øjeblikkeligt','Prioritér sikkerheden og trivslen for alle involverede','Acceptér at en fælles løsning kan kræve strukturelle ændringer','Vær støttende for begge parter, men sæt klare rammer']
+    actions:['Involvér ledelse, HR eller professionel mægler øjeblikkeligt','Prioritér sikkerheden og trivslen for alle involverede','Acceptér at en fælles løsning kan kræve strukturelle ændringer','Fokusér på håndtering fremfor løsning lige nu']
   }
 ];
 
@@ -280,11 +280,11 @@ const kernepunkter = [
   },
   { num:3, color:'var(--kp3)', name:'Følelser', tagline:'Hvordan påvirkes parterne?',
     desc:'Følelser er ikke støj – de er signaler om behov og værdier. At anerkende og benævne følelserne er en af de mest effektive veje til at åbne en fastlåst konflikt.',
-    questions:['Hvilke følelser er i spil? (vred, såret, bange, ked af det...)','Hvad tror du, den anden part føler?','Hvad udløste disse følelser?','Hvad siger følelserne om, hvad der er vigtigt her?']
+    questions:['Hvilke følelser er i spil? (vred, såret, bange, ked af det...)','Hvad tror du, den anden part føler?','Hvad udløste disse følelser?','Hvad siger følelserne om, hvad der er vigtig for dem?']
   },
   { num:4, color:'var(--kp4)', name:'Værdier og behov', tagline:'Hvad driver os egentlig?',
     desc:'Bag følelserne ligger behov og værdier. Når de krænkes, opstår intense reaktioner. At afdække begge parters behov er vejen til løsninger, der faktisk holder.',
-    questions:['Hvilke værdier oplever parterne er trådt på?','Hvad har de egentlig brug for? (respekt, anerkendelse, tryghed...)','Hvad tror du, den anden part har brug for?','Er der fælles behov som begge kan samles om?']
+    questions:['Hvilke værdier oplever parterne er trådt på?','Hvad har de egentlig brug for? (respekt, anerkendelse, tryghed...)','Hvad tror du, den anden part har brug for?','Er der fælles behov at bygge på?']
   },
   { num:5, color:'var(--kp5)', name:'Handling', tagline:'Hvad kan vi gøre konkret?',
     desc:'Fra forståelse til handling. Hvad skal der til for at begge parters vigtigste behov imødekommes? Forslaget skal være positivt, konkret og realistisk.',
@@ -299,7 +299,7 @@ const formuleringer = [
   { gruppe:'Åbne samtalen', sub:'Brug disse til at invitere til dialog uden at låse nogen fast',
     kort:[
       { sit:'Neutral åbning', quote:'Jeg kan mærke, at der er noget mellem jer, og jeg vil gerne hjælpe jer tale det igennem.', note:'Anerkend situationen uden at placere skyld.' },
-      { sit:'Invitér til samtale', quote:'Jeg vil gerne give jer begge plads til at blive hørt. Hvem vil starte med at fortælle, hvad de har oplevet?', note:'Sæt strukturen fra start – én taler ad gangen.' },
+      { sit:'Invitér til samtale', quote:'Jeg vil gerne give jer begge plads til at blive hørt. Hvem vil starte med at fortælle, hvad de har oplevet?', note:'Sæt strukturen fra start – én taler, den anden lytter.' },
       { sit:'Skab tryghed', quote:'Hvad I siger her, bruges til at finde en vej frem – ikke til at dømme nogen.', note:'Reducer defensivitet ved at fjerne truslen.' }
     ]
   },
@@ -344,17 +344,17 @@ const maeglerTjek = [
   { phase:'Inden samtalen', phaseStyle:'background:#1a2a1a;color:#5ab870',
     title:'Sæt scenen rigtigt', text:'Gode rammer er halv sejr.',
     id:'check1',
-    items:['Vælg et neutralt sted – ikke en parts territorium','Sæt god tid af – skynderi ødelægger samtaler','Forbered dig: gennemgå kernepunkterne for begge parter','Aftal på forhånd: ingen afbrydelser, mobiltelefoner ned','Overvej at tale med parterne enkeltvis inden, hvis spændingen er høj']
+    items:['Vælg et neutralt sted – ikke en parts territorium','Sæt god tid af – skynderi ødelægger samtaler','Forbered dig: gennemgå kernepunkterne for begge parter','Aftal på forhånd hvad samtalen handler om']
   },
   { phase:'Under samtalen', phaseStyle:'background:#1a1a2e;color:#7a78cc',
     title:'Din rolle som mægler', text:'Du er ikke dommer – du hjælper parterne til at høre hinanden.',
     id:'check2',
-    items:['Præsenter din rolle klart: "Jeg er her for at hjælpe jer tale – ikke for at dømme"','Lad begge parter tale ud uden afbrydelse','Opsummer og spejl det, du hører, tilbage','Hold fokus på behov og interesser – ikke positioner','Navngiv mønstre roligt: "Jeg hører at I begge har brug for respekt"','Sørg for at begge føler sig hørt inden I går til løsninger']
+    items:['Præsenter din rolle klart: "Jeg er her for at hjælpe jer tale – ikke for at dømme"','Lad begge parter tale ud uden afbrydelse','Opsummer og spejl det, du hører, tilbage','Hold fokus på at parterne hører hinanden – ikke på hvem der har ret']
   },
   { phase:'Afslutte', phaseStyle:'background:#2a1a1a;color:#cc7050',
     title:'Afslut med aftaler', text:'En god samtale uden en aftale er en halvfærdig løsning.',
     id:'check3',
-    items:['Opsummer hvad der er aftalt – konkret og tydeligt','Aftal hvem gør hvad og hvornår','Planlæg en opfølgningssamtale (fx om 2–3 uger)','Notér aftalen og send til begge parter','Anerkend begge parters mod og indsats i samtalen']
+    items:['Opsummer hvad der er aftalt – konkret og tydeligt','Aftal hvem gør hvad og hvornår','Planlæg en opfølgningssamtale (fx om 2–3 uger)','Notér aftalen og send til begge parter']
   }
 ];
 

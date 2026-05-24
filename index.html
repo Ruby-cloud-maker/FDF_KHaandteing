@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Konfliktsparring">
 <meta name="theme-color" content="#0f0e0c">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#c8a96e&quot;,&quot;icons&quot;:[]}">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#c8a96e&quot;}">
 <title>Konfliktsparring</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -385,7 +385,7 @@ function updateTrinUI() {
     if (btn) { btn.classList.add('marked'); btn.textContent = '✓ Markeret som aktivt trin'; }
     bar.style.display = 'flex';
     const t = trin.find(t => t.num === currentTrin);
-    document.getElementById('trinStatusVal').textContent = `Trin ${currentTrin}: ${t.name}`;
+    if (t) { document.getElementById('trinStatusVal').textContent = `Trin ${currentTrin}: ${t.name}`; }
   } else {
     bar.style.display = 'none';
   }
@@ -396,6 +396,7 @@ function updateTrinUI() {
 function renderTrin() {
   const list = document.getElementById('trinList');
   const bars = document.getElementById('trapBars');
+  if (!list || !bars) return;
   const maxH = 58;
 
   trin.forEach((t, i) => {
@@ -407,8 +408,8 @@ function renderTrin() {
     bar.innerHTML = `<span class="trap-bar-label">${t.num}</span>`;
     bar.onclick = () => {
       const card = document.getElementById('trin-' + t.num);
-      if (!card.classList.contains('open')) card.classList.add('open');
-      card.scrollIntoView({ behavior:'smooth', block:'start' });
+      if (card && !card.classList.contains('open')) card.classList.add('open');
+      if (card) card.scrollIntoView({ behavior:'smooth', block:'start' });
     };
     bars.appendChild(bar);
 
@@ -460,6 +461,7 @@ function goToKP(num) {
 
 function renderKP() {
   const list = document.getElementById('kpList');
+  if (!list) return;
   kernepunkter.forEach(k => {
     const card = document.createElement('div');
     card.className = 'kp-card';
@@ -488,6 +490,7 @@ function renderKP() {
 
 function renderFormuleringer() {
   const c = document.getElementById('formContent');
+  if (!c) return;
   formuleringer.forEach(gruppe => {
     const sec = document.createElement('div');
     sec.className = 'form-section';
@@ -507,6 +510,7 @@ function renderFormuleringer() {
 
 function renderOrdliste() {
   const c = document.getElementById('ordlisteContent');
+  if (!c) return;
   ['følelser','behov'].forEach(type => {
     const sec = document.createElement('div');
     sec.className = 'ord-section';
@@ -524,6 +528,7 @@ function renderOrdliste() {
 
 function renderMaegler() {
   const c = document.getElementById('maeglerContent');
+  if (!c) return;
   maeglerTjek.forEach(block => {
     const saved = JSON.parse(localStorage.getItem('check-' + block.id) || '{}');
     const card = document.createElement('div');
@@ -537,6 +542,7 @@ function renderMaegler() {
     c.appendChild(card);
 
     const list = document.getElementById(block.id);
+    if (!list) return;
     block.items.forEach((item, i) => {
       const row = document.createElement('div');
       row.className = 'check-item';
@@ -564,24 +570,37 @@ function resetChecklist(id) {
 // ══ NAV ══════════════════════════════════════════
 
 function showScreen(id) {
+  const validScreens = ['trappen', 'kernepunkter', 'formuleringer', 'ordliste', 'maegler'];
+  if (!validScreens.includes(id)) return;
+  
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
+  const screenEl = document.getElementById('screen-' + id);
+  if (screenEl) screenEl.classList.add('active');
+  
   const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4 };
-  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  if (navBtns[map[id]]) navBtns[map[id]].classList.add('active');
   window.scrollTo(0,0);
 }
 
-function toggleCard(id) { document.getElementById(id).classList.toggle('open'); }
+function toggleCard(id) { 
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
 
 function dismissBanner() {
-  document.getElementById('installBanner').style.display = 'none';
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
   localStorage.setItem('bannerDismissed','1');
 }
 
 // ══ INIT ══════════════════════════════════════════
 
-if (localStorage.getItem('bannerDismissed')) document.getElementById('installBanner').style.display = 'none';
+if (localStorage.getItem('bannerDismissed')) {
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
+}
 renderTrin();
 renderKP();
 renderFormuleringer();

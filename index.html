@@ -7,29 +7,46 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Konfliktsparring">
 <meta name="theme-color" content="#0f0e0c">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#c8a96e&quot;}">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Konfliktsparring&quot;,&quot;short_name&quot;:&quot;Konflikt&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0e0c&quot;,&quot;theme_color&quot;:&quot;#0f0e0c&quot;}">
 <title>Konfliktsparring</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0f0e0c; --surface:#1a1916; --surface2:#242320; --border:#2e2d2a;
-  --text:#e8e6e0; --muted:#7a7870; --accent:#c8a96e; --accent-dim:#8a7248;
-  --trin1:#4a8fa8; --trin2:#5b9e6a; --trin3:#8a9e3a; --trin4:#b8942a;
-  --trin5:#c96a30; --trin6:#bf4040; --trin7:#8c2a2a;
-  --kp1:#378ADD; --kp2:#7F77DD; --kp3:#D85A30; --kp4:#1D9E75; --kp5:#BA7517;
+  /* FDF brand palette */
+  --fdf-blue:    #003255;  /* Natblå – primær */
+  --fdf-sky:     #5F8CB4;  /* FDF-blå / skumringsblå */
+  --fdf-red:     #D22832;  /* Efterårsrød */
+  --fdf-yellow:  #FFB91E;  /* Korngul */
+  --fdf-green:   #7DC855;  /* Græsgrøn */
+  --fdf-purple:  #9182C8;  /* Syren */
+  --fdf-orange:  #FF733C;  /* Flammefarvet */
+  --fdf-granite: #7D878C;  /* Granit */
+
+  /* App UI */
+  --bg:#0f1318; --surface:#161c22; --surface2:#1e262f; --border:#243040;
+  --text:#e4e8ec; --muted:#6a7a88; --accent:#5F8CB4; --accent-dim:#3f657f;
+
+  /* Konflikttrappen – bruger FDF-farver */
+  --trin1:#5F8CB4; --trin2:#7DC855; --trin3:#9182C8; --trin4:#FFB91E;
+  --trin5:#FF733C; --trin6:#D22832; --trin7:#003255;
+
+  /* Kernepunkter – FDF-farver */
+  --kp1:#5F8CB4; --kp2:#9182C8; --kp3:#D22832; --kp4:#7DC855; --kp5:#FF733C;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.55;min-height:100vh;max-width:480px;margin:0 auto;overscroll-behavior:none}
 
 /* HEADER */
-.header{padding:16px 20px 0;position:sticky;top:0;background:var(--bg);z-index:100}
-.header-top{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
-.app-title{font-family:'Fraunces',serif;font-size:21px;font-weight:500;color:var(--text);letter-spacing:-.3px}
-.app-subtitle{font-size:11px;color:var(--muted);font-weight:300;letter-spacing:.05em;text-transform:uppercase}
-.nav{display:flex;gap:2px;padding:12px 0 0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.header{padding:0;position:sticky;top:0;background:var(--fdf-blue);z-index:100;border-bottom:1px solid #1a3f5a}
+.header-inner{display:flex;align-items:center;gap:10px;padding:10px 16px 8px}
+.fdf-logo{height:28px;width:auto;flex-shrink:0}
+.header-titles{display:flex;flex-direction:column;gap:1px}
+.app-title{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:#fff;letter-spacing:.01em}
+.app-subtitle{font-size:10px;color:#87A8C6;font-weight:300;letter-spacing:.06em;text-transform:uppercase}
+.nav{display:flex;gap:2px;padding:0 4px;border-top:1px solid #1a3f5a;overflow-x:auto;scrollbar-width:none;background:var(--fdf-blue)}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex-shrink:0;padding:9px 12px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s}
-.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+.nav-btn{flex-shrink:0;padding:9px 11px;background:none;border:none;color:#87A8C6;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:0;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-btn.active{color:#fff;border-bottom-color:var(--fdf-yellow);font-weight:500}
 
 /* SCREENS */
 .screen{display:none}.screen.active{display:block}
@@ -68,7 +85,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .trin-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
 .trin-card.open .trin-body,.kp-card.open .kp-body{display:block}
 .trin-desc{font-size:13px;color:#b5b2aa;line-height:1.6;padding-top:11px;margin-bottom:10px}
-.signal-box{border-left:2px solid var(--accent);padding:8px 12px;background:var(--surface2);border-radius:0 7px 7px 0;font-size:12.5px;color:#c0bbb0;font-style:italic;margin-bottom:12px;line-height:1.5}
+.signal-box{border-left:2px solid var(--accent);padding:8px 12px;background:var(--surface2);border-radius:0 7px 7px 0;font-size:12.5px;color:#c0bbb0;font-style:italic;margin-bottom:12px;line-height:1.45}
 .sub-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
 .action-list{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .action-item{font-size:13px;color:var(--text);padding:8px 11px;background:var(--surface2);border-radius:7px;line-height:1.4;border-left:2px solid}
@@ -81,7 +98,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .kp-pill-btn:active{opacity:.7}
 
 /* MARK TRIN BUTTON */
-.mark-trin-btn{width:100%;margin-top:12px;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .2s}
+.mark-trin-btn{width:100%;margin-top:12px;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s}
 .mark-trin-btn:hover{background:var(--border)}
 .mark-trin-btn.marked{background:#1e1a10;border-color:var(--accent-dim)}
 
@@ -126,7 +143,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .tool-text{font-size:12.5px;color:#b5b2aa;line-height:1.55;margin-bottom:10px}
 .checklist{display:flex;flex-direction:column;gap:6px}
 .check-item{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--text);line-height:1.4}
-.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.check-box{width:18px;height:18px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
 .check-box.checked{background:var(--accent);border-color:var(--accent)}
 .check-box.checked::after{content:'';width:9px;height:6px;border-left:1.5px solid #000;border-bottom:1.5px solid #000;transform:rotate(-45deg) translateY(-1px)}
 .reset-btn{width:100%;margin-top:12px;padding:8px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
@@ -140,14 +157,73 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 /* DIVIDER */
 .divider{height:1px;background:var(--border);margin:2px 0}
+
+/* ══ ØVELSE MODE ══ */
+.oevelse-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;max-width:480px;margin:0 auto}
+.oevelse-overlay.active{display:flex}
+
+.oe-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.oe-progress{display:flex;gap:5px;align-items:center}
+.oe-dot{width:28px;height:4px;border-radius:2px;background:var(--border);transition:background .3s,width .3s;cursor:pointer}
+.oe-dot.active{background:var(--accent);width:36px}
+.oe-dot.done{background:var(--accent-dim)}
+.oe-close{background:none;border:none;color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid var(--border)}
+.oe-close:active{background:var(--surface)}
+
+.oe-maegler-note{margin:14px 20px 0;background:var(--surface2);border-radius:10px;padding:11px 14px;border-left:2px solid var(--accent);flex-shrink:0}
+.oe-maegler-label{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.oe-maegler-text{font-size:13px;color:#c0bbb0;line-height:1.5}
+
+.oe-card{flex:1;display:flex;flex-direction:column;padding:20px 20px 16px;overflow:hidden;touch-action:pan-y}
+.oe-num{font-family:'Fraunces',serif;font-size:13px;font-weight:300;color:var(--muted);margin-bottom:6px;letter-spacing:.04em}
+.oe-name{font-family:'Fraunces',serif;font-size:38px;font-weight:500;line-height:1.1;margin-bottom:10px;transition:color .3s}
+.oe-tagline{font-size:14px;color:var(--muted);margin-bottom:20px;font-style:italic}
+.oe-divider{height:1px;background:var(--border);margin-bottom:18px;flex-shrink:0}
+.oe-q-label{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;flex-shrink:0}
+.oe-questions{flex:1;display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+.oe-q{font-size:16px;color:var(--text);line-height:1.5;padding:13px 16px;background:var(--surface);border-radius:10px;border-left:3px solid;font-weight:400}
+
+.oe-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 28px;flex-shrink:0;border-top:1px solid var(--border)}
+.oe-nav-btn{padding:12px 24px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,opacity .15s}
+.oe-nav-btn:active{background:var(--surface2)}
+.oe-nav-btn.primary{background:var(--accent);color:#000;border-color:var(--accent)}
+.oe-nav-btn.primary:active{opacity:.85}
+.oe-nav-btn:disabled{opacity:.25;cursor:default}
+.oe-station-label{font-size:11px;color:var(--muted);text-align:center}
+
+.oe-start-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center;gap:0}
+.oe-start-title{font-family:'Fraunces',serif;font-size:28px;font-weight:500;color:var(--text);margin-bottom:10px;line-height:1.2}
+.oe-start-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:32px}
+.oe-stations-preview{display:flex;flex-direction:column;gap:8px;width:100%;margin-bottom:32px}
+.oe-station-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)}
+.oe-station-badge{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oe-station-name{font-size:13.5px;color:var(--text);font-weight:500}
+.oe-station-tag{font-size:11.5px;color:var(--muted)}
+.oe-start-btn{width:100%;padding:15px;border-radius:12px;background:var(--accent);color:#000;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.01em}
+.oe-start-btn:active{opacity:.85}
+
+.oe-end-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center}
+.oe-end-icon{font-size:48px;margin-bottom:16px}
+.oe-end-title{font-family:'Fraunces',serif;font-size:26px;font-weight:500;color:var(--text);margin-bottom:10px}
+.oe-end-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:32px}
+.oe-back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;padding:4px 8px;border-radius:6px;border:1px solid var(--border)}
+.oe-back-btn:active{background:var(--surface)}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-top">
-    <span class="app-title">Konfliktsparring</span>
-    <span class="app-subtitle">FDF · mægler</span>
+  <div class="header-inner">
+    <!-- FDF shield logo inline SVG -->
+    <svg class="fdf-logo" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 2L4 14v24c0 14 11 26 26 32C45 64 56 52 56 38V14L30 2z" fill="#FFB91E"/>
+      <path d="M30 8L10 18v20c0 11 8.5 20.5 20 26C41.5 58.5 50 49 50 38V18L30 8z" fill="#003255"/>
+      <text x="30" y="42" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="18" fill="#FFB91E" letter-spacing="1">FDF</text>
+    </svg>
+    <div class="header-titles">
+      <div class="app-title">Konfliktsparring</div>
+      <div class="app-subtitle">Mægler · FDF</div>
+    </div>
   </div>
   <nav class="nav">
     <button class="nav-btn active" onclick="showScreen('trappen')">Konflikttrappen</button>
@@ -155,7 +231,56 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <button class="nav-btn" onclick="showScreen('formuleringer')">Formuleringer</button>
     <button class="nav-btn" onclick="showScreen('ordliste')">Følelser & behov</button>
     <button class="nav-btn" onclick="showScreen('maegler')">Tjeklister</button>
+    <button class="nav-btn" onclick="startOevelse()" style="color:#FFB91E;font-weight:500">▶ Øvelse</button>
   </nav>
+</div>
+
+<!-- ══ ØVELSE OVERLAY ══ -->
+<div class="oevelse-overlay" id="oevelseOverlay">
+  <div style="display:flex;flex-direction:column;height:100%;overflow:hidden">
+
+    <!-- Topbar -->
+    <div class="oe-topbar">
+      <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:500;color:var(--text)">Vandring</div>
+      <button class="oe-close" onclick="stopOevelse()">Afslut øvelse</button>
+    </div>
+
+    <!-- Scrollable body -->
+    <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+
+      <!-- Circle map – always visible -->
+      <div style="padding:16px 16px 8px">
+        <svg id="oeMap" viewBox="-10 -10 340 300" width="100%" style="display:block"></svg>
+      </div>
+
+      <!-- Station panel – appears below circle on tap, hidden by default -->
+      <div id="oePanel" style="display:none;margin:4px 14px 32px;border-radius:14px;overflow:hidden;border:1.5px solid var(--border)">
+
+        <!-- Coloured header strip -->
+        <div id="oePanelHeader" style="padding:14px 16px 12px;display:flex;align-items:center;gap:12px">
+          <div id="oePanelIcon" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path id="oePanelIconPath" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div style="flex:1">
+            <div id="oePanelName" style="font-weight:600;font-size:16px;color:var(--text)"></div>
+            <div id="oePanelTagline" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+          </div>
+        </div>
+
+        <!-- Mægler note -->
+        <div style="margin:0 14px 12px;padding:10px 12px;border-radius:8px;border-left:2px solid;background:var(--surface2)" id="oePanelMaegler">
+          <div style="font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;color:var(--muted)">Mægler</div>
+          <div style="font-size:13px;color:#b8c4cc;line-height:1.5" id="oePanelMaeglerText"></div>
+        </div>
+
+        <!-- Questions -->
+        <div style="padding:0 14px 16px;display:flex;flex-direction:column;gap:7px" id="oePanelQuestions"></div>
+
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- INSTALL BANNER -->
@@ -229,43 +354,43 @@ const trin = [
     desc:'Der er uenighed om en sag, men parterne taler stadig konstruktivt. Fokus er på sagen, ikke på personen. Konflikter her er sunde – de giver udvikling.',
     signal:'Trin 1 er det bedste sted at gribe ind. Lav indsats, stor effekt.',
     kpLinks:[1,2],
-    actions:['Hjælp parterne præcisere, hvad de konkret er uenige om','Sørg for at begge lytter og anerkender den andens synspunkt','Find fælles grund: hvad er I faktisk enige om?','Beslut en fremadrettet handling sammen']
+    actions:['Hjælp parterne præcisere, hvad de konkret er uenige om','Sørg for at begge lytter og anerkender den andens synspunkt','Find fælles grund: hvad er I faktisk enige om?','Beslut en fremgangsmåde og sæt en opfølgning']
   },
   { num:2, color:'var(--trin2)', name:'Personificering', tagline:'Man går efter manden, ikke bolden',
     desc:'Uoverensstemmelsen begynder at handle om personen frem for sagen. "Det er din skyld." Den gule alarmklokke skal ringe her – relationen er ved at tage skade.',
     signal:'Grib ind nu. Det er meget lettere at løse her end højere oppe.',
     kpLinks:[1,2,3],
-    actions:['Bring fokus tilbage: "Hvad er det konkrete problem?"','Navngiv mønstret: "Jeg hører, at det nu handler om hvem, ikke hvad"','Spørg: "Hvad har du brug for, for at vi kan komme videre?"','Invitér til næste trin uden at tage parti']
+    actions:['Bring fokus tilbage: "Hvad er det konkrete problem?"','Navngiv mønstret: "Jeg hører, at det nu handler om hvem, ikke hvad"','Spørg: "Hvad har du brug for, for at vi kan komme videre?"','Aftal en ny samtale med roligere rammer om nødvendigt']
   },
   { num:3, color:'var(--trin3)', name:'Problemet vokser', tagline:'Gamle sager graves op',
     desc:'Nye og gamle problemer kobles på. Spydige bemærkninger sniger sig ind. Fortiden bruges som ammunition: "Du er altid sådan..."',
     signal:'Der er mere på spil end det umiddelbart ser ud til. Stil roligt op.',
     kpLinks:[1,2,3],
-    actions:['Skil sagerne ad: "Lad os holde fokus på det, der skete sidst uge"','Anerkend at der er frustration opbygget over tid','Brug fakta-kernepunktet: hvad er der rent faktisk sket?','Overvej at splitte mødet op hvis det bliver for intenst']
+    actions:['Skil sagerne ad: "Lad os holde fokus på det, der skete sidst uge"','Anerkend at der er frustration opbygget over tid','Brug fakta-kernepunktet: hvad er der rent faktisk sket?','Overvej om der er brug for en struktureret mæglingssamtale']
   },
   { num:4, color:'var(--trin4)', name:'Samtalen reduceres', tagline:'Man taler om – ikke med – hinanden',
     desc:'Parterne undgår direkte kontakt. Kommunikation sker via andre eller kropssprog. Alliancer begynder at dannes. Det originale problem er næsten glemt.',
     signal:'Her er professionel hjælp ofte nødvendig. Tag det alvorligt.',
     kpLinks:[3,4],
-    actions:['Skab en neutral ramme hvor begge trygt kan tale','Vær tydelig: "Jeg vil hjælpe jer tale direkte med hinanden"','Fokusér på følelser og behov – ikke på hvad der skete','Aftal konkrete timer til opfølgning']
+    actions:['Skab en neutral ramme hvor begge trygt kan tale','Vær tydelig: "Jeg vil hjælpe jer tale direkte med hinanden"','Fokusér på følelser og behov – ikke på hvad der skete','Aftal konkrete kommunikationsspilleregler fremadrettet']
   },
   { num:5, color:'var(--trin5)', name:'Fjendebilleder', tagline:'Sort-hvidt verdensbillede',
     desc:'Parterne har opgivet at forstå hinanden. Alt handler om at vinde. Empati er næsten umulig. Al energi bruges på at bekæmpe – ikke på at løse.',
     signal:'Kræver erfaren hjælp. Din rolle er stabilisering, ikke løsning.',
     kpLinks:[3,4,5],
-    actions:['Separér parterne og tal med dem enkeltvis','Validér følelserne uden at bekræfte fjendebilledet','Undgå at stille dig som dommer – det gør det værre','Undersøg om ekstern professionel skal involveres']
+    actions:['Separér parterne og tal med dem enkeltvis','Validér følelserne uden at bekræfte fjendebilledet','Undgå at stille dig som dommer – det gør det værre','Undersøg om ekstern professionel mægling er nødvendig']
   },
   { num:6, color:'var(--trin6)', name:'Åben fjendtlighed', tagline:'Fjendtlige handlinger – man er med eller imod',
     desc:'Åbne, sårende handlinger og udtalelser. Alliancepartnere hverves aktivt. Neutralitet er næsten umuligt. Målet er tydeligt: at skade den anden part.',
     signal:'Handl hurtigt. Involvér ledelse og tag konflikten ud af hverdagen.',
     kpLinks:[4,5],
-    actions:['Sæt en klar grænse: "Sådan taler vi ikke til hinanden her"','Involvér leder eller overordnet – du kan ikke stå alene med dette','Fokusér på at sikre et trygt miljø for alle involverede','Planlæg næste skridt med ledelsen']
+    actions:['Sæt en klar grænse: "Sådan taler vi ikke til hinanden her"','Involvér leder eller overordnet – du kan ikke stå alene med dette','Fokusér på at sikre et trygt miljø for alle andre i gruppen','Dokumentér hændelser og handlinger fremadrettet']
   },
   { num:7, color:'var(--trin7)', name:'Polarisering', tagline:'Der er ikke plads til os begge',
     desc:'Konflikten er eskaleret til et punkt, hvor parterne ikke kan være i samme rum. Relationen er dybt skadet. Professionel hjælp er afgørende.',
     signal:'Din rolle er at hjælpe med at skabe tryghed og bringe de rette folk ind.',
     kpLinks:[4,5],
-    actions:['Involvér ledelse, HR eller professionel mægler øjeblikkeligt','Prioritér sikkerheden og trivslen for alle involverede','Acceptér at en fælles løsning kan kræve strukturelle ændringer','Fokusér på håndtering fremfor løsning lige nu']
+    actions:['Involvér ledelse, HR eller professionel mægler øjeblikkeligt','Prioritér sikkerheden og trivslen for alle involverede','Acceptér at en fælles løsning kan kræve strukturelle ændringer','Vær støttende for begge parter, men sæt klare rammer']
   }
 ];
 
@@ -280,11 +405,11 @@ const kernepunkter = [
   },
   { num:3, color:'var(--kp3)', name:'Følelser', tagline:'Hvordan påvirkes parterne?',
     desc:'Følelser er ikke støj – de er signaler om behov og værdier. At anerkende og benævne følelserne er en af de mest effektive veje til at åbne en fastlåst konflikt.',
-    questions:['Hvilke følelser er i spil? (vred, såret, bange, ked af det...)','Hvad tror du, den anden part føler?','Hvad udløste disse følelser?','Hvad siger følelserne om, hvad der er vigtig for dem?']
+    questions:['Hvilke følelser er i spil? (vred, såret, bange, ked af det...)','Hvad tror du, den anden part føler?','Hvad udløste disse følelser?','Hvad siger følelserne om, hvad der er vigtigt her?']
   },
   { num:4, color:'var(--kp4)', name:'Værdier og behov', tagline:'Hvad driver os egentlig?',
     desc:'Bag følelserne ligger behov og værdier. Når de krænkes, opstår intense reaktioner. At afdække begge parters behov er vejen til løsninger, der faktisk holder.',
-    questions:['Hvilke værdier oplever parterne er trådt på?','Hvad har de egentlig brug for? (respekt, anerkendelse, tryghed...)','Hvad tror du, den anden part har brug for?','Er der fælles behov at bygge på?']
+    questions:['Hvilke værdier oplever parterne er trådt på?','Hvad har de egentlig brug for? (respekt, anerkendelse, tryghed...)','Hvad tror du, den anden part har brug for?','Er der fælles behov som begge kan samles om?']
   },
   { num:5, color:'var(--kp5)', name:'Handling', tagline:'Hvad kan vi gøre konkret?',
     desc:'Fra forståelse til handling. Hvad skal der til for at begge parters vigtigste behov imødekommes? Forslaget skal være positivt, konkret og realistisk.',
@@ -299,7 +424,7 @@ const formuleringer = [
   { gruppe:'Åbne samtalen', sub:'Brug disse til at invitere til dialog uden at låse nogen fast',
     kort:[
       { sit:'Neutral åbning', quote:'Jeg kan mærke, at der er noget mellem jer, og jeg vil gerne hjælpe jer tale det igennem.', note:'Anerkend situationen uden at placere skyld.' },
-      { sit:'Invitér til samtale', quote:'Jeg vil gerne give jer begge plads til at blive hørt. Hvem vil starte med at fortælle, hvad de har oplevet?', note:'Sæt strukturen fra start – én taler, den anden lytter.' },
+      { sit:'Invitér til samtale', quote:'Jeg vil gerne give jer begge plads til at blive hørt. Hvem vil starte med at fortælle, hvad de har oplevet?', note:'Sæt strukturen fra start – én taler ad gangen.' },
       { sit:'Skab tryghed', quote:'Hvad I siger her, bruges til at finde en vej frem – ikke til at dømme nogen.', note:'Reducer defensivitet ved at fjerne truslen.' }
     ]
   },
@@ -344,17 +469,17 @@ const maeglerTjek = [
   { phase:'Inden samtalen', phaseStyle:'background:#1a2a1a;color:#5ab870',
     title:'Sæt scenen rigtigt', text:'Gode rammer er halv sejr.',
     id:'check1',
-    items:['Vælg et neutralt sted – ikke en parts territorium','Sæt god tid af – skynderi ødelægger samtaler','Forbered dig: gennemgå kernepunkterne for begge parter','Aftal på forhånd hvad samtalen handler om']
+    items:['Vælg et neutralt sted – ikke en parts territorium','Sæt god tid af – skynderi ødelægger samtaler','Forbered dig: gennemgå kernepunkterne for begge parter','Aftal på forhånd: ingen afbrydelser, mobiltelefoner ned','Overvej at tale med parterne enkeltvis inden, hvis spændingen er høj']
   },
   { phase:'Under samtalen', phaseStyle:'background:#1a1a2e;color:#7a78cc',
     title:'Din rolle som mægler', text:'Du er ikke dommer – du hjælper parterne til at høre hinanden.',
     id:'check2',
-    items:['Præsenter din rolle klart: "Jeg er her for at hjælpe jer tale – ikke for at dømme"','Lad begge parter tale ud uden afbrydelse','Opsummer og spejl det, du hører, tilbage','Hold fokus på at parterne hører hinanden – ikke på hvem der har ret']
+    items:['Præsenter din rolle klart: "Jeg er her for at hjælpe jer tale – ikke for at dømme"','Lad begge parter tale ud uden afbrydelse','Opsummer og spejl det, du hører, tilbage','Hold fokus på behov og interesser – ikke positioner','Navngiv mønstre roligt: "Jeg hører at I begge har brug for respekt"','Sørg for at begge føler sig hørt inden I går til løsninger']
   },
   { phase:'Afslutte', phaseStyle:'background:#2a1a1a;color:#cc7050',
     title:'Afslut med aftaler', text:'En god samtale uden en aftale er en halvfærdig løsning.',
     id:'check3',
-    items:['Opsummer hvad der er aftalt – konkret og tydeligt','Aftal hvem gør hvad og hvornår','Planlæg en opfølgningssamtale (fx om 2–3 uger)','Notér aftalen og send til begge parter']
+    items:['Opsummer hvad der er aftalt – konkret og tydeligt','Aftal hvem gør hvad og hvornår','Planlæg en opfølgningssamtale (fx om 2–3 uger)','Notér aftalen og send til begge parter','Anerkend begge parters mod og indsats i samtalen']
   }
 ];
 
@@ -385,7 +510,7 @@ function updateTrinUI() {
     if (btn) { btn.classList.add('marked'); btn.textContent = '✓ Markeret som aktivt trin'; }
     bar.style.display = 'flex';
     const t = trin.find(t => t.num === currentTrin);
-    if (t) { document.getElementById('trinStatusVal').textContent = `Trin ${currentTrin}: ${t.name}`; }
+    document.getElementById('trinStatusVal').textContent = `Trin ${currentTrin}: ${t.name}`;
   } else {
     bar.style.display = 'none';
   }
@@ -396,7 +521,6 @@ function updateTrinUI() {
 function renderTrin() {
   const list = document.getElementById('trinList');
   const bars = document.getElementById('trapBars');
-  if (!list || !bars) return;
   const maxH = 58;
 
   trin.forEach((t, i) => {
@@ -408,8 +532,8 @@ function renderTrin() {
     bar.innerHTML = `<span class="trap-bar-label">${t.num}</span>`;
     bar.onclick = () => {
       const card = document.getElementById('trin-' + t.num);
-      if (card && !card.classList.contains('open')) card.classList.add('open');
-      if (card) card.scrollIntoView({ behavior:'smooth', block:'start' });
+      if (!card.classList.contains('open')) card.classList.add('open');
+      card.scrollIntoView({ behavior:'smooth', block:'start' });
     };
     bars.appendChild(bar);
 
@@ -461,7 +585,6 @@ function goToKP(num) {
 
 function renderKP() {
   const list = document.getElementById('kpList');
-  if (!list) return;
   kernepunkter.forEach(k => {
     const card = document.createElement('div');
     card.className = 'kp-card';
@@ -490,7 +613,6 @@ function renderKP() {
 
 function renderFormuleringer() {
   const c = document.getElementById('formContent');
-  if (!c) return;
   formuleringer.forEach(gruppe => {
     const sec = document.createElement('div');
     sec.className = 'form-section';
@@ -510,7 +632,6 @@ function renderFormuleringer() {
 
 function renderOrdliste() {
   const c = document.getElementById('ordlisteContent');
-  if (!c) return;
   ['følelser','behov'].forEach(type => {
     const sec = document.createElement('div');
     sec.className = 'ord-section';
@@ -528,7 +649,6 @@ function renderOrdliste() {
 
 function renderMaegler() {
   const c = document.getElementById('maeglerContent');
-  if (!c) return;
   maeglerTjek.forEach(block => {
     const saved = JSON.parse(localStorage.getItem('check-' + block.id) || '{}');
     const card = document.createElement('div');
@@ -542,7 +662,6 @@ function renderMaegler() {
     c.appendChild(card);
 
     const list = document.getElementById(block.id);
-    if (!list) return;
     block.items.forEach((item, i) => {
       const row = document.createElement('div');
       row.className = 'check-item';
@@ -567,40 +686,241 @@ function resetChecklist(id) {
   document.querySelectorAll('#' + id + ' .check-box').forEach(b => b.classList.remove('checked'));
 }
 
-// ══ NAV ══════════════════════════════════════════
+// ══ ØVELSE ════════════════════════════════════════
+
+const oevelseKP = [
+  { num:1, colorHex:'#5F8CB4', name:'Fakta', tagline:'Hvad skete der rent faktisk?',
+    icon:'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5', // layers/stack = facts
+    maegler:'Stil spørgsmålene ét ad gangen. Lad der være stilhed. Lyt efter kendsgerninger – ikke tolkninger.',
+    questions:['Hvad skete der helt konkret?','Hvem var involveret – hvornår og hvor?','Hvad sagde de til hinanden?','Hvad tror du skete, set fra den andens perspektiv?']
+  },
+  { num:2, colorHex:'#9182C8', name:'Fortolkninger', tagline:'Hvad tænker I om det, der skete?',
+    icon:'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z', // speech bubble = interpretation
+    maegler:'Mind parterne om at fortolkninger ikke er fakta – de er indre reaktioner. Vær nysgerrig, ikke korrigerende.',
+    questions:['Hvad var din første tanke, da det skete?','Hvad var dine forventninger?','Hvordan tror du, den anden forstår situationen?','Hvad er du mest usikker på i din egen fortolkning?']
+  },
+  { num:3, colorHex:'#D22832', name:'Følelser', tagline:'Hvordan påvirkes I?',
+    icon:'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z', // heart = feelings
+    maegler:'Den såreste station. Giv ekstra rum. Normaliser følelserne: "Det giver god mening." Ingen løsninger endnu.',
+    questions:['Hvad føler du, når du tænker på det der skete?','Hvad tror du, den anden part har følt?','Hvad udløste følelserne i dig?','Er der noget du ikke har sagt højt endnu?']
+  },
+  { num:4, colorHex:'#7DC855', name:'Værdier\nog behov', tagline:'Hvad har I egentlig brug for?',
+    icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', // shield = values/protection
+    maegler:'Hjælp parterne mærke, hvad der er vigtigt for dem. Find fælles behov – de findes næsten altid.',
+    questions:['Hvad er det vigtigste for dig i denne situation?','Hvilke af dine værdier oplever du er trådt på?','Hvad tror du, den anden har allermest brug for?','Er der noget I begge har brug for?']
+  },
+  { num:5, colorHex:'#FF733C', name:'Handling', tagline:'Hvad kan vi gøre?',
+    icon:'M5 12h14M12 5l7 7-7 7', // arrow = action/forward
+    maegler:'Hold fokus på det mulige og konkrete. Én ting er nok at starte med. Afslut med en aftale begge kan stå inde for.',
+    questions:['Hvad kan I konkret gøre anderledes fra nu af?','Hvad er den ene ting, der ville gøre mest forskel?','Hvad er du villig til at bidrage med?','Hvornår og hvordan følger vi op?']
+  }
+];
+
+let oeVisited = new Set();
+
+function startOevelse() {
+  oeVisited = new Set();
+  document.getElementById('oevelseOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  showOeHub();
+}
+
+function stopOevelse() {
+  document.getElementById('oevelseOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function showOeHub() {
+  document.getElementById('oe-hub').style.display = 'flex';
+  document.getElementById('oe-detail').style.display = 'none';
+  buildOeMap();
+  renderOeVisited();
+}
+
+function openOeStation(idx) {
+  oeVisited.add(idx);
+  const k = oevelseKP[idx];
+  document.getElementById('oe-hub').style.display = 'none';
+  document.getElementById('oe-detail').style.display = 'flex';
+
+  document.getElementById('oeNum').textContent = `Station ${k.num} af ${oevelseKP.length}`;
+  document.getElementById('oeName').textContent = k.name.replace('\nog ', ' og ');
+  document.getElementById('oeName').style.color = k.colorHex;
+  document.getElementById('oeTagline').textContent = k.tagline;
+  document.getElementById('oeMaeglerNote').textContent = k.maegler;
+
+  const qs = document.getElementById('oeQuestions');
+  qs.innerHTML = '';
+  k.questions.forEach(q => {
+    const el = document.createElement('div');
+    el.className = 'oe-q';
+    el.style.borderColor = k.colorHex;
+    el.textContent = q;
+    qs.appendChild(el);
+  });
+
+  // Quick-jump dots in header
+  const nav = document.getElementById('oeDetailNav');
+  nav.innerHTML = '';
+  oevelseKP.forEach((kk, i) => {
+    const d = document.createElement('div');
+    d.style.cssText = `width:10px;height:10px;border-radius:50%;background:${i===idx ? kk.colorHex : (oeVisited.has(i) ? kk.colorHex+'88' : 'var(--border)')};cursor:pointer;transition:all .2s;flex-shrink:0`;
+    d.onclick = () => openOeStation(i);
+    nav.appendChild(d);
+  });
+}
+
+function buildOeMap() {
+  const svg = document.getElementById('oeMap');
+  svg.innerHTML = '';
+
+  const cx = 160, cy = 130, ringR = 98;
+
+  // Outer guide circle – subtle
+  const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  ring.setAttribute('cx', cx); ring.setAttribute('cy', cy); ring.setAttribute('r', ringR);
+  ring.setAttribute('fill','none'); ring.setAttribute('stroke','#1a3f5a'); ring.setAttribute('stroke-width','1');
+  svg.appendChild(ring);
+
+  // Center text
+  const allDone = oeVisited.size === oevelseKP.length;
+  const ct = document.createElementNS('http://www.w3.org/2000/svg','text');
+  ct.setAttribute('x', cx); ct.setAttribute('y', cy - 6);
+  ct.setAttribute('text-anchor','middle'); ct.setAttribute('dominant-baseline','middle');
+  ct.setAttribute('fill', allDone ? '#FFB91E' : '#4a6070');
+  ct.setAttribute('font-size','12'); ct.setAttribute('font-family','DM Sans, sans-serif');
+  ct.textContent = allDone ? 'Alle besøgt' : 'Vælg en station';
+  svg.appendChild(ct);
+
+  if (allDone) {
+    const star = document.createElementNS('http://www.w3.org/2000/svg','text');
+    star.setAttribute('x', cx); star.setAttribute('y', cy + 12);
+    star.setAttribute('text-anchor','middle'); star.setAttribute('fill','#FFB91E');
+    star.setAttribute('font-size','14');
+    star.textContent = '✓';
+    svg.appendChild(star);
+  }
+
+  // 5 nodes evenly on circle, starting from top (−90°)
+  oevelseKP.forEach((k, i) => {
+    const angle = (i / oevelseKP.length) * 2 * Math.PI - Math.PI / 2;
+    const nx = cx + ringR * Math.cos(angle);
+    const ny = cy + ringR * Math.sin(angle);
+    const visited = oeVisited.has(i);
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.style.cursor = 'pointer';
+    g.onclick = () => openOeStation(i);
+
+    // Soft glow ring if visited
+    if (visited) {
+      const glow = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      glow.setAttribute('cx', nx); glow.setAttribute('cy', ny); glow.setAttribute('r','32');
+      glow.setAttribute('fill', k.colorHex + '20');
+      g.appendChild(glow);
+    }
+
+    // Main node circle
+    const node = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    node.setAttribute('cx', nx); node.setAttribute('cy', ny); node.setAttribute('r','24');
+    node.setAttribute('fill', visited ? k.colorHex : '#161c22');
+    node.setAttribute('stroke', k.colorHex);
+    node.setAttribute('stroke-width', visited ? '0' : '1.5');
+    g.appendChild(node);
+
+    // Icon (SVG path inside circle)
+    const iconNS = 'http://www.w3.org/2000/svg';
+    const iconSvg = document.createElementNS(iconNS, 'svg');
+    iconSvg.setAttribute('x', nx - 11); iconSvg.setAttribute('y', ny - 17);
+    iconSvg.setAttribute('width', '22'); iconSvg.setAttribute('height', '22');
+    iconSvg.setAttribute('viewBox', '0 0 24 24');
+    iconSvg.setAttribute('fill', 'none');
+    const iconPath = document.createElementNS(iconNS, 'path');
+    iconPath.setAttribute('d', k.icon);
+    iconPath.setAttribute('stroke', visited ? '#fff' : k.colorHex);
+    iconPath.setAttribute('stroke-width', '1.8');
+    iconPath.setAttribute('stroke-linecap', 'round');
+    iconPath.setAttribute('stroke-linejoin', 'round');
+    iconSvg.appendChild(iconPath);
+    g.appendChild(iconSvg);
+
+    // Name (below icon, inside circle)
+    const shortName = k.name.replace('\nog ', ' og ');
+    const nameEl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    nameEl.setAttribute('x', nx); nameEl.setAttribute('y', ny + 11);
+    nameEl.setAttribute('text-anchor','middle'); nameEl.setAttribute('dominant-baseline','middle');
+    nameEl.setAttribute('fill', visited ? '#fff' : '#9aA4b0');
+    nameEl.setAttribute('font-size','7'); nameEl.setAttribute('font-family','DM Sans, sans-serif');
+    nameEl.textContent = shortName.length > 11 ? shortName.slice(0,10)+'…' : shortName;
+    g.appendChild(nameEl);
+
+    // Full name label outside the circle, pushed away from center
+    const labelDist = 44;
+    const lx = cx + (ringR + labelDist) * Math.cos(angle);
+    const ly = cy + (ringR + labelDist) * Math.sin(angle);
+    const labelEl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    labelEl.setAttribute('x', lx); labelEl.setAttribute('y', ly);
+    labelEl.setAttribute('text-anchor','middle'); labelEl.setAttribute('dominant-baseline','middle');
+    labelEl.setAttribute('fill', visited ? k.colorHex : '#7a7870');
+    labelEl.setAttribute('font-size','9.5'); labelEl.setAttribute('font-family','DM Sans, sans-serif');
+    labelEl.setAttribute('font-weight', visited ? '500' : '400');
+    // Wrap "Værdier og behov" across two lines
+    const nameParts = k.name.split('\n');
+    if (nameParts.length > 1) {
+      nameParts.forEach((part, pi) => {
+        const tspan = document.createElementNS('http://www.w3.org/2000/svg','tspan');
+        tspan.setAttribute('x', lx); tspan.setAttribute('dy', pi === 0 ? '-5' : '12');
+        tspan.textContent = part.replace('og ', 'og ');
+        labelEl.appendChild(tspan);
+      });
+    } else {
+      labelEl.textContent = k.name;
+    }
+    svg.appendChild(labelEl);
+
+    svg.appendChild(g);
+  });
+}
+
+function renderOeVisited() {
+  const container = document.getElementById('oeVisited');
+  container.innerHTML = '';
+  if (oeVisited.size === 0) {
+    const hint = document.createElement('span');
+    hint.style.cssText = 'font-size:11px;color:var(--muted);font-style:italic;padding:0 0 4px';
+    hint.textContent = 'Ingen stationer besøgt endnu';
+    container.appendChild(hint);
+    return;
+  }
+  oevelseKP.forEach((k, i) => {
+    if (!oeVisited.has(i)) return;
+    const badge = document.createElement('div');
+    badge.style.cssText = `font-size:11px;padding:3px 10px;border-radius:20px;background:${k.colorHex}22;border:1px solid ${k.colorHex}55;color:${k.colorHex};cursor:pointer`;
+    badge.textContent = '✓ ' + k.name.replace('\nog ', ' og ');
+    badge.onclick = () => openOeStation(i);
+    container.appendChild(badge);
+  });
+}
 
 function showScreen(id) {
-  const validScreens = ['trappen', 'kernepunkter', 'formuleringer', 'ordliste', 'maegler'];
-  if (!validScreens.includes(id)) return;
-  
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const screenEl = document.getElementById('screen-' + id);
-  if (screenEl) screenEl.classList.add('active');
-  
-  const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4 };
-  const navBtns = document.querySelectorAll('.nav-btn');
-  if (navBtns[map[id]]) navBtns[map[id]].classList.add('active');
+  document.getElementById('screen-' + id).classList.add('active');
+  const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4, oevelse:5 };
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
   window.scrollTo(0,0);
 }
 
-function toggleCard(id) { 
-  const el = document.getElementById(id);
-  if (el) el.classList.toggle('open');
-}
+function toggleCard(id) { document.getElementById(id).classList.toggle('open'); }
 
 function dismissBanner() {
-  const banner = document.getElementById('installBanner');
-  if (banner) banner.style.display = 'none';
+  document.getElementById('installBanner').style.display = 'none';
   localStorage.setItem('bannerDismissed','1');
 }
 
 // ══ INIT ══════════════════════════════════════════
 
-if (localStorage.getItem('bannerDismissed')) {
-  const banner = document.getElementById('installBanner');
-  if (banner) banner.style.display = 'none';
-}
+if (localStorage.getItem('bannerDismissed')) document.getElementById('installBanner').style.display = 'none';
 renderTrin();
 renderKP();
 renderFormuleringer();

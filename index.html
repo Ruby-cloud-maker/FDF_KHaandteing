@@ -248,13 +248,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <!-- Scrollable body -->
     <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
 
+      <!-- Hint -->
+      <div style="padding:10px 20px 4px;font-size:12px;color:var(--muted);font-style:italic;text-align:center">
+        Tryk på en station for at åbne den
+      </div>
+
       <!-- Circle map – always visible -->
-      <div style="padding:16px 16px 8px">
+      <div style="padding:8px 12px 4px">
         <svg id="oeMap" viewBox="-10 -10 340 300" width="100%" style="display:block"></svg>
       </div>
 
-      <!-- Station panel – appears below circle on tap, hidden by default -->
-      <div id="oePanel" style="display:none;margin:4px 14px 32px;border-radius:14px;overflow:hidden;border:1.5px solid var(--border)">
+      <!-- Visited badges -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px;min-height:28px" id="oeVisited"></div>
+
+      <!-- Station panel – expands below circle on tap -->
+      <div id="oePanel" style="display:none;margin:4px 14px 40px;border-radius:14px;overflow:hidden;border:1.5px solid var(--border)">
 
         <!-- Coloured header strip -->
         <div id="oePanelHeader" style="padding:14px 16px 12px;display:flex;align-items:center;gap:12px">
@@ -267,6 +275,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
             <div id="oePanelName" style="font-weight:600;font-size:16px;color:var(--text)"></div>
             <div id="oePanelTagline" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
           </div>
+          <button onclick="closeOePanel()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1">×</button>
         </div>
 
         <!-- Mægler note -->
@@ -720,9 +729,11 @@ let oeVisited = new Set();
 
 function startOevelse() {
   oeVisited = new Set();
+  document.getElementById('oePanel').style.display = 'none';
   document.getElementById('oevelseOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
-  showOeHub();
+  buildOeMap();
+  renderOeVisited();
 }
 
 function stopOevelse() {
@@ -730,44 +741,43 @@ function stopOevelse() {
   document.body.style.overflow = '';
 }
 
-function showOeHub() {
-  document.getElementById('oe-hub').style.display = 'flex';
-  document.getElementById('oe-detail').style.display = 'none';
-  buildOeMap();
-  renderOeVisited();
+function closeOePanel() {
+  document.getElementById('oePanel').style.display = 'none';
 }
 
 function openOeStation(idx) {
   oeVisited.add(idx);
   const k = oevelseKP[idx];
-  document.getElementById('oe-hub').style.display = 'none';
-  document.getElementById('oe-detail').style.display = 'flex';
 
-  document.getElementById('oeNum').textContent = `Station ${k.num} af ${oevelseKP.length}`;
-  document.getElementById('oeName').textContent = k.name.replace('\nog ', ' og ');
-  document.getElementById('oeName').style.color = k.colorHex;
-  document.getElementById('oeTagline').textContent = k.tagline;
-  document.getElementById('oeMaeglerNote').textContent = k.maegler;
+  // Panel header color
+  document.getElementById('oePanelHeader').style.background = k.colorHex + '22';
+  document.getElementById('oePanelIcon').style.background = k.colorHex;
+  document.getElementById('oePanelIconPath').setAttribute('d', k.icon);
+  document.getElementById('oePanelName').textContent = k.name.replace('\nog ', ' og ');
+  document.getElementById('oePanelTagline').textContent = k.tagline;
 
-  const qs = document.getElementById('oeQuestions');
+  // Mægler note border color
+  document.getElementById('oePanelMaegler').style.borderColor = k.colorHex;
+  document.getElementById('oePanelMaeglerText').textContent = k.maegler;
+
+  // Questions
+  const qs = document.getElementById('oePanelQuestions');
   qs.innerHTML = '';
   k.questions.forEach(q => {
     const el = document.createElement('div');
-    el.className = 'oe-q';
-    el.style.borderColor = k.colorHex;
+    el.style.cssText = `font-size:13.5px;color:var(--text);padding:10px 12px;background:var(--surface2);border-radius:8px;border-left:3px solid ${k.colorHex};line-height:1.45`;
     el.textContent = q;
     qs.appendChild(el);
   });
 
-  // Quick-jump dots in header
-  const nav = document.getElementById('oeDetailNav');
-  nav.innerHTML = '';
-  oevelseKP.forEach((kk, i) => {
-    const d = document.createElement('div');
-    d.style.cssText = `width:10px;height:10px;border-radius:50%;background:${i===idx ? kk.colorHex : (oeVisited.has(i) ? kk.colorHex+'88' : 'var(--border)')};cursor:pointer;transition:all .2s;flex-shrink:0`;
-    d.onclick = () => openOeStation(i);
-    nav.appendChild(d);
-  });
+  // Show panel and scroll to it
+  const panel = document.getElementById('oePanel');
+  panel.style.display = 'block';
+  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+
+  // Redraw map to show visited state
+  buildOeMap();
+  renderOeVisited();
 }
 
 function buildOeMap() {

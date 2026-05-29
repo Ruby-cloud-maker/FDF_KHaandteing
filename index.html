@@ -45,7 +45,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .app-subtitle{font-size:10px;color:#87A8C6;font-weight:300;letter-spacing:.06em;text-transform:uppercase}
 .nav{display:flex;gap:2px;padding:0 4px;border-top:1px solid #1a3f5a;overflow-x:auto;scrollbar-width:none;background:var(--fdf-blue)}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex-shrink:0;padding:9px 11px;background:none;border:none;color:#87A8C6;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:0;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-btn{flex-shrink:0;padding:11px 14px;background:none;border:none;color:#87A8C6;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:0;transition:color .2s,border-color .2s;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:5px;min-height:56px;justify-content:center}
+.nav-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .nav-btn.active{color:#fff;border-bottom-color:var(--fdf-yellow);font-weight:500}
 
 /* SCREENS */
@@ -226,12 +227,34 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     </div>
   </div>
   <nav class="nav">
-    <button class="nav-btn active" onclick="showScreen('trappen')">Konflikttrappen</button>
-    <button class="nav-btn" onclick="showScreen('kernepunkter')">Kernepunkterne</button>
-    <button class="nav-btn" onclick="showScreen('formuleringer')">Formuleringer</button>
-    <button class="nav-btn" onclick="showScreen('ordliste')">Følelser & behov</button>
-    <button class="nav-btn" onclick="showScreen('maegler')">Tjeklister</button>
-    <button class="nav-btn" onclick="startOevelse()" style="color:#FFB91E;font-weight:500">▶ Øvelse</button>
+    <button class="nav-btn active" onclick="showScreen('trappen')">
+      <svg viewBox="0 0 24 24"><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></svg>
+      Trappen
+    </button>
+    <button class="nav-btn" onclick="showScreen('kernepunkter')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg>
+      Punkter
+    </button>
+    <button class="nav-btn" onclick="showScreen('formuleringer')">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Ord
+    </button>
+    <button class="nav-btn" onclick="showScreen('ordliste')">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      Følelser
+    </button>
+    <button class="nav-btn" onclick="showScreen('maegler')">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Tjek
+    </button>
+    <button class="nav-btn" onclick="showScreen('podio')">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Log
+    </button>
+    <button class="nav-btn" onclick="startOevelse()">
+      <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+      Øvelse
+    </button>
   </nav>
 </div>
 
@@ -306,17 +329,23 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="intro-text">Find trinet konflikten er på – og hvad du som mægler kan gøre.</div>
   </div>
 
+  <!-- Konflikttrappen scale visualization -->
+  <div class="trap-wrap">
+    <div class="trap-visual" id="trapBars"></div>
+  </div>
+
+  <div class="trin-list" id="trinList"></div>
+
   <div id="trinStatusBar" style="display:none" class="trin-status-bar">
     <span class="trin-status-label">Markeret trin</span>
     <span class="trin-status-val" id="trinStatusVal"></span>
     <button class="trin-status-clear" onclick="clearCurrentTrin()">Ryd</button>
   </div>
 
-  <div class="trap-wrap">
-    <div class="trap-visual" id="trapBars"></div>
+  <!-- Konflikttrappen illustration from PDF -->
+  <div style="padding:12px 16px 0;border-bottom:1px solid var(--border)">
+    <img id="trappeImg" alt="Konflikttrappen – 7 trin fra uoverensstemmelse til polarisering" style="width:100%;display:block;border-radius:8px">
   </div>
-
-  <div class="trin-list" id="trinList"></div>
 </div>
 
 <!-- ══ SCREEN: KERNEPUNKTERNE ══ -->
@@ -344,6 +373,17 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="intro-text">Brug listerne til at hjælpe parterne sætte ord på det svære.</div>
   </div>
   <div class="ordliste-content" id="ordlisteContent"></div>
+</div>
+
+<!-- ══ SCREEN: PODIO FORM ══ -->
+<div id="screen-podio" class="screen">
+  <div class="intro-band">
+    <div class="intro-label">Log en sag</div>
+    <div class="intro-text">Udfyld formularen og send din sag direkte til Podio.</div>
+  </div>
+  <div style="padding:14px 20px 32px;height:calc(100vh - 200px)">
+    <iframe src="https://podio.com/webforms/30698693/2605335" style="width:100%;height:100%;border:none;border-radius:10px;background:#fff" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" title="Log sag"></iframe>
+  </div>
 </div>
 
 <!-- ══ SCREEN: MÆGLER TJEKLISTER ══ -->
@@ -916,7 +956,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
-  const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4, oevelse:5 };
+  const map = { trappen:0, kernepunkter:1, formuleringer:2, ordliste:3, maegler:4, podio:5, oevelse:6 };
   document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
   window.scrollTo(0,0);
 }
